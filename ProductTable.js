@@ -81,7 +81,8 @@ const products = [
     {category: "Sporting Goods", price: "$29.99",  stocked: false, name: "Basketball"},
     {category: "Electronics",    price: "$99.99",  stocked: true,  name: "iPod Touch"},
     {category: "Electronics",    price: "$399.99", stocked: false, name: "iPhone 5"},
-    {category: "Electronics",    price: "$199.99", stocked: true,  name: "Nexus 7"}
+    {category: "Electronics",    price: "$199.99", stocked: true,  name: "Nexus 7"},
+    {category: "Fruit",          price: "$12",     stocked: true,  name: "Banana"}
 ];
 
 products.sort((a, b) => {return a.category > b.category ? 1 : -1});
