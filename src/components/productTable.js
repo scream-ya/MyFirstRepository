@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import ProductTable from './table'; 
-import FilterBlock from './filters';
+import Table from './Table'; 
+import SearchBar from './SearchBar';
 import products from '../constants/products';
 
 products.sort((a, b) => {return a.category > b.category ? 1 : -1});
 
-class FilterableProductTable extends React.Component {
+class ProductTable extends React.Component {
     constructor(props) {
         super(props);
 
@@ -24,10 +24,10 @@ class FilterableProductTable extends React.Component {
     render() {
         return (<div className="split">
                     <h1>Products</h1>
-                    <FilterBlock handleChange={this.handleChange}/>
-                    <ProductTable products={products} filters={this.state} />
+                    <SearchBar handleChange={this.handleChange}/>
+                    <Table products={products} filters={this.state} />
                 </div>);
     }  
 }
 
-export default FilterableProductTable 
+export default ProductTable 

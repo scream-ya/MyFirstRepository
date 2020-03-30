@@ -1,6 +1,6 @@
 import React from 'react';
-import CategoryRow from './categoryRow';
-import Row from './row';
+import CategoryRow from './CategoryRow';
+import Row from './Row';
 
 function Table(props) {
     let prevCategory = "";
