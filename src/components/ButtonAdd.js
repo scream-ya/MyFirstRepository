@@ -2,7 +2,7 @@ import React from 'react';
 
 function ButtonAdd (props) {
 
-    return <button type="button">Add product</button>
+    return <button type="button">A product</button>
 
 }
 
