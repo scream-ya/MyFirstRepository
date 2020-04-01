@@ -1,8 +1,8 @@
 import React from 'react';
 import ProductTable from './components/ProductTable';
 
-function App(props) {
+function App (props) {
     return <ProductTable />
 }
 
-export default ProductTable
+export default App

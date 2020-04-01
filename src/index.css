@@ -8,7 +8,7 @@ input
   border: 1px solid rgb(201, 199, 199);
 }
 
-[type="checkbox"] {
+.inline {
   display: inline;
 }
 
@@ -18,10 +18,6 @@ input
   
 :focus::-webkit-input-placeholder{
   opacity: 0; 
-}
-
-.split {
-  padding-bottom: 50px;
 }
 
 table {
@@ -36,7 +32,7 @@ td {
 
 thead td{
   font-weight: bold;
-  padding-left: 2px;
+  padding: 0px 7px 0px 2px;
 }
 
 tbody td {

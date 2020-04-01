@@ -1,16 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Table from './Table'; 
 import SearchBar from './SearchBar';
 import products from '../constants/products';
-
-products.sort((a, b) => {return a.category > b.category ? 1 : -1});
+import ButtonAdd from './ButtonAdd';
 
 class ProductTable extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            filterText: '', 
+            filterText: "", 
             inStockOnly: false
         };
     }
@@ -18,13 +17,14 @@ class ProductTable extends React.Component {
     handleChange = (e) => {
         const {id, value, checked, type} = e.target;
 
-        this.setState({[id]: type == "checkbox" ? checked : value});
+        this.setState({[id]: type === "checkbox" ? checked : value});
     }    
 
     render() {
-        return (<div className="split">
+        return (<div>
                     <h1>Products</h1>
                     <SearchBar handleChange={this.handleChange}/>
+                    <ButtonAdd />
                     <Table products={products} filters={this.state} />
                 </div>);
     }  
