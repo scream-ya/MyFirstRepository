@@ -1,17 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  handleChange: PropTypes.func,
+};
+
+const defaultProps = {
+  handleChange: '',
+};
+
 function SearchBar(props) {
-    return (
-        <div>
-            <input type="text" id="filterText" placeholder="Search..." className="inline" onChange={props.handleChange}/>
-            <input type="checkbox" id="inStockOnly" onChange={props.handleChange} className="inline" /> Only show products in stock
-        </div>
-    );    
+  const { handleChange } = props;
+  return (
+    <div>
+      <input type="text" id="filterText" placeholder="Search..." className="inline" onChange={handleChange} />
+      <input type="checkbox" id="inStockOnly" onChange={handleChange} className="inline" />
+      Only show products in stock
+    </div>
+  );
 }
 
-SearchBar.propTypes = {
-    handleChange: PropTypes.func
-}
+SearchBar.propTypes = propTypes;
+SearchBar.defaultProps = defaultProps;
 
-export default SearchBar 
+export default SearchBar;

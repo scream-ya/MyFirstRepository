@@ -1,17 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+const propTypes = {
+  category: PropTypes.string,
+};
+
+const defaultProps = {
+  category: '',
+};
+
 function CategoryRow(props) {
-    return (
-        <tr key={props.index}>
-          <td colSpan="5" className="category">{props.category}</td>
-        </tr>
-    );    
+  const { category } = props;
+
+  return (
+    <tr>
+      <td colSpan="5" className="category">{category}</td>
+    </tr>
+  );
 }
 
-CategoryRow.propTypes = {
-  index: PropTypes.string,
-  category: PropTypes.string
-};
+CategoryRow.propTypes = propTypes;
+CategoryRow.defaultProps = defaultProps;
 
 export default CategoryRow;
