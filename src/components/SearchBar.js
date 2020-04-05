@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-  handleChange: PropTypes.func,
-};
-
-const defaultProps = {
-  handleChange: '',
+  handleChange: PropTypes.func.isRequired,
 };
 
 function SearchBar(props) {
@@ -21,6 +17,5 @@ function SearchBar(props) {
 }
 
 SearchBar.propTypes = propTypes;
-SearchBar.defaultProps = defaultProps;
 
 export default SearchBar;

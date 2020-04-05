@@ -6,7 +6,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  category: '',
+  category: '----',
 };
 
 function CategoryRow(props) {

@@ -11,15 +11,15 @@ class ProductTable extends React.Component {
     this.state = {
       filterText: '',
       inStockOnly: false,
-      isShowAddNewProd: false,
+      isShowAddNewProduct: false,
       productsList: products,
     };
 
-    this.closeAddNewProd = this.closeAddNewProd.bind(this);
-    this.showAddNewProd = this.showAddNewProd.bind(this);
+    this.hideAddNewProduct = this.hideAddNewProduct.bind(this);
+    this.showAddNewProduct = this.showAddNewProduct.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.addNewProd = this.addNewProd.bind(this);
-    this.deleteProd = this.deleteProd.bind(this);
+    this.addNewProduct = this.addNewProduct.bind(this);
+    this.removeProductById = this.removeProductById.bind(this);
     this.editProduct = this.editProduct.bind(this);
   }
 
@@ -31,62 +31,54 @@ class ProductTable extends React.Component {
     this.setState({ [id]: type === 'checkbox' ? checked : value });
   }
 
-  showAddNewProd() {
-    this.setState({ isShowAddNewProd: true });
+  showAddNewProduct() {
+    this.setState({ isShowAddNewProduct: true });
   }
 
-  closeAddNewProd() {
-    this.setState({ isShowAddNewProd: false });
+  hideAddNewProduct() {
+    this.setState({ isShowAddNewProduct: false });
   }
 
-  addNewProd(parm) {
-    const newProd = parm;
+  addNewProduct(newProduct) {
     const { productsList } = this.state;
-    const { category, name } = newProd;
-    const nextId = productsList.sort((a, b) => (a.id < b.id ? 1 : -1))[0].id + 1;
+    const { name } = newProduct;
 
-    newProd.id = nextId;
-
-    if (category && name) {
-      this.setState({ productsList: [...productsList, newProd] });
+    if (name) {
+      this.setState({ productsList: [...productsList, newProduct] });
     }
   }
 
-  deleteProd(prodId) {
+  removeProductById(id) {
     const { productsList } = this.state;
-    const delProdId = productsList.findIndex((prod) => prod.id === prodId);
-
-    productsList.splice(delProdId, 1);
-
-    this.setState({ productsList: [...productsList] });
+    this.setState({ productsList: [...productsList].filter((product) => product.id !== id) });
   }
 
-  editProduct(editData) {
+  editProduct(editProduct) {
     const { productsList } = this.state;
-    const prodId = productsList.findIndex((prod) => prod.id === editData.id);
+    const index = productsList.findIndex((product) => product.id === editProduct.id);
 
-    productsList.splice(prodId, 1);
+    productsList.splice(index, 1);
 
-    this.setState({ productsList: [...productsList, editData] });
+    this.setState({ productsList: [...productsList, editProduct] });
   }
 
   render() {
     const {
-      filterText, inStockOnly, isShowAddNewProd, productsList,
+      filterText, inStockOnly, isShowAddNewProduct, productsList,
     } = this.state;
 
     return (
       <div>
         <h1>Products</h1>
         <SearchBar handleChange={this.handleChange} />
-        <button type="button" onClick={this.showAddNewProd}>Add product</button>
-        {isShowAddNewProd
-        && <NewProduct addNewProd={this.addNewProd} closeAddNewProd={this.closeAddNewProd} />}
+        <button type="button" onClick={this.showAddNewProduct}>Add product</button>
+        {isShowAddNewProduct
+          && <NewProduct addNewProduct={this.addNewProduct} hideAddNewProduct={this.hideAddNewProduct} />}
         <Table
           products={productsList}
           filterText={filterText}
           inStockOnly={inStockOnly}
-          deleteProd={this.deleteProd}
+          removeProductById={this.removeProductById}
           editProduct={this.editProduct}
         />
       </div>

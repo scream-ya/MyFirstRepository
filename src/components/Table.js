@@ -6,21 +6,20 @@ import Row from './Row';
 const propTypes = {
   filterText: PropTypes.string,
   inStockOnly: PropTypes.bool,
-  products: PropTypes.arrayOf(PropTypes.object),
-  deleteProd: PropTypes.func.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeProductById: PropTypes.func.isRequired,
   editProduct: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   filterText: '',
   inStockOnly: false,
-  products: [],
 };
 
 function Table(props) {
   let prevCategory = '';
   const {
-    filterText, inStockOnly, products, deleteProd, editProduct,
+    filterText, inStockOnly, products, removeProductById, editProduct,
   } = props;
 
   return (
@@ -46,14 +45,14 @@ function Table(props) {
                 return (
                   <React.Fragment key={product.id}>
                     <CategoryRow category={product.category} />
-                    <Row product={product} deleteProd={deleteProd} editProduct={editProduct} />
+                    <Row product={product} removeProduct={removeProductById} editProduct={editProduct} />
                   </React.Fragment>
                 );
               }
 
               prevCategory = product.category;
 
-              return <Row key={product.id} product={product} deleteProd={deleteProd} editProduct={editProduct} />;
+              return <Row key={product.id} product={product} removeProduct={removeProductById} editProduct={editProduct} />;
             })
         }
       </tbody>
