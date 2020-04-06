@@ -57,9 +57,9 @@ class ProductTable extends React.Component {
     const { productsList } = this.state;
     const index = productsList.findIndex((product) => product.id === editProduct.id);
 
-    productsList.splice(index, 1);
+    productsList.splice(index, 1, editProduct);
 
-    this.setState({ productsList: [...productsList, editProduct] });
+    this.setState({ productsList });
   }
 
   render() {

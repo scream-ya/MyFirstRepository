@@ -8,13 +8,13 @@ const propTypes = {
 };
 
 function NewProduct(props) {
-  const initialState = {
+  const initialProductState = {
     category: '',
     price: '',
     inStock: false,
     name: '',
   };
-  const [state, setState] = useState(initialState);
+  const [productState, setProductState] = useState(initialProductState);
   const { addNewProduct, hideAddNewProduct } = props;
 
   function handleChange(e) {
@@ -22,13 +22,13 @@ function NewProduct(props) {
       id, value, checked, type,
     } = e.target;
 
-    setState({ ...state, [id]: type === 'checkbox' ? checked : value });
+    setProductState({ ...productState, [id]: type === 'checkbox' ? checked : value });
   }
 
   function addProduct() {
     const {
       category, price, inStock, name,
-    } = state;
+    } = productState;
 
     addNewProduct({
       id: uuidv4(),
@@ -40,7 +40,7 @@ function NewProduct(props) {
   }
 
   function clear() {
-    setState(initialState);
+    setProductState(initialProductState);
   }
 
   function handleAddProduct() {
@@ -53,19 +53,19 @@ function NewProduct(props) {
       <div>
         <div>
           <span>Category:</span>
-          <input id="category" type="text" className="inline" value={state.category} onChange={handleChange} />
+          <input id="category" type="text" className="inline" value={productState.category} onChange={handleChange} />
         </div>
         <div>
           <span>Price:</span>
-          <input id="price" type="number" className="inline" value={state.price} onChange={handleChange} />
+          <input id="price" type="number" className="inline" value={productState.price} onChange={handleChange} />
         </div>
         <div>
           <span>Stocked:</span>
-          <input id="inStock" type="checkbox" className="inline" checked={state.inStock} onChange={handleChange} />
+          <input id="inStock" type="checkbox" className="inline" checked={productState.inStock} onChange={handleChange} />
         </div>
         <div>
           <span>Name:</span>
-          <input id="name" type="text" className="inline" value={state.name} onChange={handleChange} />
+          <input id="name" type="text" className="inline" value={productState.name} onChange={handleChange} />
         </div>
       </div>
       <button type="button" onClick={handleAddProduct}>Add</button>

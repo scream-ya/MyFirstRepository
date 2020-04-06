@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 const propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     category: PropTypes.string,
     price: PropTypes.string,
     stocked: PropTypes.bool,
@@ -16,16 +16,16 @@ const propTypes = {
 
 function Row(props) {
   const { product, removeProductById, editProduct } = props;
-  const initialState = {
+  const initialProductState = {
     name: product.name,
     price: product.price,
     inStock: product.stocked,
     isEditProduct: false,
   };
-  const [state, setState] = useState(initialState);
+  const [productState, setProductState] = useState(initialProductState);
 
   function inStockToStr() {
-    return state.inStock ? 'Yes' : 'No';
+    return productState.inStock ? 'Yes' : 'No';
   }
 
   function handleChange(e) {
@@ -33,17 +33,17 @@ function Row(props) {
       id, value, checked, type,
     } = e.target;
 
-    setState({ ...state, [id]: type === 'checkbox' ? checked : value });
+    setProductState({ ...productState, [id]: type === 'checkbox' ? checked : value });
   }
 
   function handleClick() {
-    setState({ ...state, isEditProduct: true });
+    setProductState({ ...productState, isEditProduct: true });
   }
 
   function handleEditProduct() {
     const {
       price, inStock, name,
-    } = state;
+    } = productState;
 
     editProduct({
       id: product.id,
@@ -53,13 +53,13 @@ function Row(props) {
       stocked: inStock,
     });
 
-    setState({ ...state, isEditProduct: false });
+    setProductState({ ...productState, isEditProduct: false });
   }
 
   function cancel() {
     const { name, price, stocked } = product;
 
-    setState({
+    setProductState({
       name,
       price,
       inStock: stocked,
@@ -68,13 +68,13 @@ function Row(props) {
   }
 
   return (
-    state.isEditProduct
+    productState.isEditProduct
       ? (
         <>
           <tr>
-            <td><input id="name" type="text" value={state.name} onChange={handleChange} /></td>
-            <td><input id="price" type="text" value={state.price} onChange={handleChange} /></td>
-            <td><input id="inStock" type="checkbox" checked={state.inStock} onChange={handleChange} /></td>
+            <td><input id="name" type="text" value={productState.name} onChange={handleChange} /></td>
+            <td><input id="price" type="text" value={productState.price} onChange={handleChange} /></td>
+            <td><input id="inStock" type="checkbox" checked={productState.inStock} onChange={handleChange} /></td>
             <td><button type="button" onClick={handleEditProduct}>Ok</button></td>
             <td><button type="button" onClick={cancel}>Cancel</button></td>
           </tr>
@@ -83,8 +83,8 @@ function Row(props) {
       : (
         <>
           <tr>
-            <td className={clsx({ red: !state.inStock })}>{state.name}</td>
-            <td>{state.price}</td>
+            <td className={clsx({ red: !productState.inStock })}>{productState.name}</td>
+            <td>{productState.price}</td>
             <td align="center">{inStockToStr()}</td>
             <td><button id="isEditProduct" type="button" onClick={handleClick}>Edit</button></td>
             <td><button type="button" onClick={() => removeProductById(product.id)}>Del</button></td>

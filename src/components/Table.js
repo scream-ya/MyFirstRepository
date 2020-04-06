@@ -35,7 +35,17 @@ function Table(props) {
       </thead>
       <tbody>
         {
-          products.sort((a, b) => (a.category > b.category ? 1 : -1))
+          products.sort((a, b) => {
+            if (a.category > b.category) {
+              return 1;
+            }
+
+            if (a.category < b.category) {
+              return -1;
+            }
+
+            return 0;
+          })
             .filter((product) => !filterText
               || product.name.toLowerCase().indexOf(filterText.toLowerCase()) === 0)
             .filter((product) => !inStockOnly || product.stocked)
@@ -45,14 +55,14 @@ function Table(props) {
                 return (
                   <React.Fragment key={product.id}>
                     <CategoryRow category={product.category} />
-                    <Row product={product} removeProduct={removeProductById} editProduct={editProduct} />
+                    <Row product={product} removeProductById={removeProductById} editProduct={editProduct} />
                   </React.Fragment>
                 );
               }
 
               prevCategory = product.category;
 
-              return <Row key={product.id} product={product} removeProduct={removeProductById} editProduct={editProduct} />;
+              return <Row key={product.id} product={product} removeProductById={removeProductById} editProduct={editProduct} />;
             })
         }
       </tbody>
