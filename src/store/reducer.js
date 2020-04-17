@@ -20,7 +20,7 @@ function reducer(state, action) {
 
     case VISIBLE_ADD_NEW_PRODUCT: {
       const { value } = action;
-      return { ...currentState, isShowAddNewProduct: value };
+      return { ...currentState, isVisibleAddNewProduct: value };
     }
 
     case EDIT_PRODUCT: {
