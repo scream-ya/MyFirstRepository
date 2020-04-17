@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
+import { connect } from 'react-redux';
+import { actionAdd, visibleAddNewProduct } from '../store/actions';
 
 const propTypes = {
   addNewProduct: PropTypes.func.isRequired,
   hideAddNewProduct: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  addNewProduct: (newProduct) => dispatch(actionAdd(newProduct)),
+  hideAddNewProduct: () => dispatch(visibleAddNewProduct(false)),
+});
 
 function NewProduct(props) {
   const initialProductState = {
@@ -76,4 +83,4 @@ function NewProduct(props) {
 
 NewProduct.propTypes = propTypes;
 
-export default NewProduct;
+export default connect(null, mapDispatchToProps)(NewProduct);

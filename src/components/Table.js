@@ -1,25 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import CategoryRow from './CategoryRow';
 import Row from './Row';
 
 const propTypes = {
   filterText: PropTypes.string,
-  inStockOnly: PropTypes.bool,
+  inStockOnly: PropTypes.bool.isRequired,
   products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  removeProductById: PropTypes.func.isRequired,
-  editProduct: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   filterText: '',
-  inStockOnly: false,
 };
+
+const mapStateToProps = (state) => ({
+  filterText: state.filterText,
+  inStockOnly: state.inStockOnly,
+  products: state.productsList,
+});
 
 function Table(props) {
   let prevCategory = '';
   const {
-    filterText, inStockOnly, products, removeProductById, editProduct,
+    filterText, inStockOnly, products,
   } = props;
 
   return (
@@ -55,14 +59,14 @@ function Table(props) {
                 return (
                   <React.Fragment key={product.id}>
                     <CategoryRow category={product.category} />
-                    <Row product={product} removeProductById={removeProductById} editProduct={editProduct} />
+                    <Row product={product} />
                   </React.Fragment>
                 );
               }
 
               prevCategory = product.category;
 
-              return <Row key={product.id} product={product} removeProductById={removeProductById} editProduct={editProduct} />;
+              return <Row key={product.id} product={product} />;
             })
         }
       </tbody>
@@ -73,4 +77,4 @@ function Table(props) {
 Table.propTypes = propTypes;
 Table.defaultProps = defaultProps;
 
-export default Table;
+export default connect(mapStateToProps)(Table);

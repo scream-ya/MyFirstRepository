@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { connect } from 'react-redux';
+import { actionEdit, actionRemove } from '../store/actions';
 
 const propTypes = {
   product: PropTypes.shape({
@@ -13,6 +15,11 @@ const propTypes = {
   removeProductById: PropTypes.func.isRequired,
   editProduct: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  removeProductById: (id) => dispatch(actionRemove(id)),
+  editProduct: (editProduct) => dispatch(actionEdit(editProduct)),
+});
 
 function Row(props) {
   const { product, removeProductById, editProduct } = props;
@@ -96,4 +103,4 @@ function Row(props) {
 
 Row.propTypes = propTypes;
 
-export default Row;
+export default connect(null, mapDispatchToProps)(Row);

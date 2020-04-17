@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { setFilters } from '../store/actions';
 
 const propTypes = {
   handleChange: PropTypes.func.isRequired,
 };
 
+const mapDispatchToProps = (dispatch) => ({
+  handleChange: (event) => dispatch(setFilters(event)),
+});
+
 function SearchBar(props) {
   const { handleChange } = props;
+
   return (
     <div>
       <input type="text" id="filterText" placeholder="Search..." className="inline" onChange={handleChange} />
@@ -18,4 +25,4 @@ function SearchBar(props) {
 
 SearchBar.propTypes = propTypes;
 
-export default SearchBar;
+export default connect(null, mapDispatchToProps)(SearchBar);

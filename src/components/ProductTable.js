@@ -1,89 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Table from './Table';
 import SearchBar from './SearchBar';
 import NewProduct from './NewProduct';
-import products from '../constants/products';
+import { visibleAddNewProduct } from '../store/actions';
 
-class ProductTable extends React.Component {
-  constructor(props) {
-    super(props);
+const propTypes = {
+  isShowAddNewProduct: PropTypes.bool.isRequired,
+  showAddNewProduct: PropTypes.func.isRequired,
+};
 
-    this.state = {
-      filterText: '',
-      inStockOnly: false,
-      isShowAddNewProduct: false,
-      productsList: products,
-    };
+const mapStateToProps = (state) => ({
+  isShowAddNewProduct: state.isShowAddNewProduct,
+});
 
-    this.hideAddNewProduct = this.hideAddNewProduct.bind(this);
-    this.showAddNewProduct = this.showAddNewProduct.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.addNewProduct = this.addNewProduct.bind(this);
-    this.removeProductById = this.removeProductById.bind(this);
-    this.editProduct = this.editProduct.bind(this);
-  }
+const mapDispatchToProps = (dispatch) => ({
+  showAddNewProduct: () => dispatch(visibleAddNewProduct(true)),
+});
 
-  handleChange(e) {
-    const {
-      id, value, checked, type,
-    } = e.target;
+function ProductTable(props) {
+  const { isShowAddNewProduct, showAddNewProduct } = props;
 
-    this.setState({ [id]: type === 'checkbox' ? checked : value });
-  }
-
-  showAddNewProduct() {
-    this.setState({ isShowAddNewProduct: true });
-  }
-
-  hideAddNewProduct() {
-    this.setState({ isShowAddNewProduct: false });
-  }
-
-  addNewProduct(newProduct) {
-    const { productsList } = this.state;
-    const { name } = newProduct;
-
-    if (name) {
-      this.setState({ productsList: [...productsList, newProduct] });
-    }
-  }
-
-  removeProductById(id) {
-    const { productsList } = this.state;
-    this.setState({ productsList: [...productsList].filter((product) => product.id !== id) });
-  }
-
-  editProduct(editProduct) {
-    const { productsList } = this.state;
-    const index = productsList.findIndex((product) => product.id === editProduct.id);
-
-    productsList.splice(index, 1, editProduct);
-
-    this.setState({ productsList });
-  }
-
-  render() {
-    const {
-      filterText, inStockOnly, isShowAddNewProduct, productsList,
-    } = this.state;
-
-    return (
-      <div>
-        <h1>Products</h1>
-        <SearchBar handleChange={this.handleChange} />
-        <button type="button" onClick={this.showAddNewProduct}>Add product</button>
-        {isShowAddNewProduct
-          && <NewProduct addNewProduct={this.addNewProduct} hideAddNewProduct={this.hideAddNewProduct} />}
-        <Table
-          products={productsList}
-          filterText={filterText}
-          inStockOnly={inStockOnly}
-          removeProductById={this.removeProductById}
-          editProduct={this.editProduct}
-        />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <h1>Products</h1>
+      <SearchBar />
+      <button type="button" onClick={showAddNewProduct}>Add product</button>
+      {isShowAddNewProduct
+        && <NewProduct />}
+      <Table />
+    </div>
+  );
 }
 
-export default ProductTable;
+ProductTable.propTypes = propTypes;
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductTable);
