@@ -6,7 +6,7 @@ import products from '../constants/products';
 const initialState = {
   filterText: '',
   inStockOnly: false,
-  isShowAddNewProduct: false,
+  isVisibleAddNewProduct: false,
   productsList: products,
 };
 

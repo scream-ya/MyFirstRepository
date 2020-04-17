@@ -1,33 +1,33 @@
 /* eslint-disable import/prefer-default-export */
 import {
-  ACTION_TYPE_SET_FILTERS,
-  ACTION_TYPE_VISIBLE_ADD_NEW_PRODUCT,
-  ACTION_TYPE_REMOVE,
-  ACTION_TYPE_EDIT,
-  ACTION_TYPE_ADD,
+  SET_FILTERS,
+  VISIBLE_ADD_NEW_PRODUCT,
+  EDIT_PRODUCT,
+  REMOVE_PRODUCT,
+  ADD_PRODUCT,
 } from './actionTypes';
 
-export const setFilters = (event) => ({
-  type: ACTION_TYPE_SET_FILTERS,
-  event,
+export const setFilters = (object) => ({
+  type: SET_FILTERS,
+  object,
 });
 
 export const visibleAddNewProduct = (value) => ({
-  type: ACTION_TYPE_VISIBLE_ADD_NEW_PRODUCT,
+  type: VISIBLE_ADD_NEW_PRODUCT,
   value,
 });
 
-export const actionEdit = (editProduct) => ({
-  type: ACTION_TYPE_EDIT,
-  editProduct,
+export const actionEditProduct = (object) => ({
+  type: EDIT_PRODUCT,
+  object,
 });
 
-export const actionRemove = (id) => ({
-  type: ACTION_TYPE_REMOVE,
+export const actionRemoveProduct = (id) => ({
+  type: REMOVE_PRODUCT,
   id,
 });
 
-export const actionAdd = (newProduct) => ({
-  type: ACTION_TYPE_ADD,
-  newProduct,
+export const actionAddProduct = (object) => ({
+  type: ADD_PRODUCT,
+  object,
 });

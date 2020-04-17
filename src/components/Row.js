@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { connect } from 'react-redux';
-import { actionEdit, actionRemove } from '../store/actions';
+import { actionEditProduct, actionRemoveProduct } from '../store/actions';
 
 const propTypes = {
   product: PropTypes.shape({
@@ -17,8 +17,8 @@ const propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  removeProductById: (id) => dispatch(actionRemove(id)),
-  editProduct: (editProduct) => dispatch(actionEdit(editProduct)),
+  removeProductById: (id) => dispatch(actionRemoveProduct(id)),
+  editProduct: (object) => dispatch(actionEditProduct(object)),
 });
 
 function Row(props) {

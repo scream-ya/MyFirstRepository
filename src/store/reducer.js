@@ -1,9 +1,9 @@
 import {
-  ACTION_TYPE_SET_FILTERS,
-  ACTION_TYPE_VISIBLE_ADD_NEW_PRODUCT,
-  ACTION_TYPE_REMOVE,
-  ACTION_TYPE_EDIT,
-  ACTION_TYPE_ADD,
+  SET_FILTERS,
+  VISIBLE_ADD_NEW_PRODUCT,
+  EDIT_PRODUCT,
+  REMOVE_PRODUCT,
+  ADD_PRODUCT,
 } from './actionTypes';
 
 function reducer(state, action) {
@@ -11,33 +11,29 @@ function reducer(state, action) {
   const actionType = action.type;
 
   switch (actionType) {
-    case ACTION_TYPE_SET_FILTERS:
-    {
+    case SET_FILTERS: {
       const {
         id, type, checked, value,
-      } = action.event.target;
+      } = action.object;
       return { ...currentState, [id]: type === 'checkbox' ? checked : value };
     }
 
-    case ACTION_TYPE_VISIBLE_ADD_NEW_PRODUCT:
-    {
+    case VISIBLE_ADD_NEW_PRODUCT: {
       const { value } = action;
       return { ...currentState, isShowAddNewProduct: value };
     }
 
-    case ACTION_TYPE_EDIT:
-    {
-      const { editProduct } = action;
+    case EDIT_PRODUCT: {
+      const { object } = action;
       const { productsList } = currentState;
-      const index = productsList.findIndex((product) => product.id === editProduct.id);
+      const index = productsList.findIndex((product) => product.id === object.id);
 
-      productsList.splice(index, 1, editProduct);
+      productsList.splice(index, 1, object);
 
       return { ...currentState, productsList };
     }
 
-    case ACTION_TYPE_REMOVE:
-    {
+    case REMOVE_PRODUCT: {
       const { id } = action;
       const { productsList } = currentState;
 
@@ -47,18 +43,18 @@ function reducer(state, action) {
       };
     }
 
-    case ACTION_TYPE_ADD:
-    {
-      const { newProduct } = action;
+    case ADD_PRODUCT: {
+      const { object } = action;
       const { productsList } = currentState;
 
-      return newProduct.name
-        ? { ...currentState, productsList: [...productsList, newProduct] }
+      return object.name
+        ? { ...currentState, productsList: [...productsList, object] }
         : currentState;
     }
 
-    default:
+    default: {
       return currentState;
+    }
   }
 }
 

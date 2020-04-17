@@ -7,12 +7,12 @@ import NewProduct from './NewProduct';
 import { visibleAddNewProduct } from '../store/actions';
 
 const propTypes = {
-  isShowAddNewProduct: PropTypes.bool.isRequired,
+  isVisibleAddNewProduct: PropTypes.bool.isRequired,
   showAddNewProduct: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isShowAddNewProduct: state.isShowAddNewProduct,
+  isVisibleAddNewProduct: state.isVisibleAddNewProduct,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -20,14 +20,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 function ProductTable(props) {
-  const { isShowAddNewProduct, showAddNewProduct } = props;
+  const { isVisibleAddNewProduct, showAddNewProduct } = props;
 
   return (
     <div>
       <h1>Products</h1>
       <SearchBar />
       <button type="button" onClick={showAddNewProduct}>Add product</button>
-      {isShowAddNewProduct
+      {isVisibleAddNewProduct
         && <NewProduct />}
       <Table />
     </div>

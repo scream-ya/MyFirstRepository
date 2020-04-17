@@ -8,7 +8,15 @@ const propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  handleChange: (event) => dispatch(setFilters(event)),
+  handleChange: (event) => {
+    const {
+      id, type, checked, value,
+    } = event.target;
+
+    dispatch(setFilters({
+      id, type, checked, value,
+    }));
+  },
 });
 
 function SearchBar(props) {
