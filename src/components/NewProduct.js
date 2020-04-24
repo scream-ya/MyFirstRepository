@@ -19,14 +19,6 @@ const mapDispatchToProps = (dispatch) => ({
   hideAddNewProduct: () => dispatch(visibleAddNewProduct(false)),
 });
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
 function NewProduct(props) {
   const initialProductState = {
     category: '',
@@ -68,7 +60,13 @@ function NewProduct(props) {
     clear();
   }
 
-  const classes = useStyles();
+  const classes = makeStyles((theme) => ({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+      },
+    },
+  }))();
 
   return (
     <div>
