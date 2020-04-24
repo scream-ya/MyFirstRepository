@@ -7,6 +7,9 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles';
 
 const propTypes = {
@@ -80,30 +83,30 @@ function Row(props) {
     },
   })();
 
+  if (productState.isEditProduct) {
+    return (
+      <>
+        <TableRow>
+          <TableCell><TextField id="name" size="small" value={productState.name} onChange={handleChange} /></TableCell>
+          <TableCell><TextField InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment> }} id="price" size="small" value={productState.price} onChange={handleChange} /></TableCell>
+          <TableCell><Checkbox id="inStock" color="primary" checked={productState.inStock} onChange={handleChange} /></TableCell>
+          <TableCell><IconButton size="small" onClick={handleEditProduct}><DoneIcon fontSize="small" /></IconButton></TableCell>
+          <TableCell><IconButton size="small" onClick={cancel}><CloseIcon fontSize="small" /></IconButton></TableCell>
+        </TableRow>
+      </>
+    );
+  }
+
   return (
-    productState.isEditProduct
-      ? (
-        <>
-          <TableRow>
-            <TableCell><input id="name" type="text" value={productState.name} onChange={handleChange} /></TableCell>
-            <TableCell><input id="price" type="text" value={productState.price} onChange={handleChange} /></TableCell>
-            <TableCell><input id="inStock" type="checkbox" checked={productState.inStock} onChange={handleChange} /></TableCell>
-            <TableCell><IconButton size="small" onClick={handleEditProduct}><DoneIcon fontSize="small" /></IconButton></TableCell>
-            <TableCell><IconButton size="small" onClick={cancel}><CloseIcon fontSize="small" /></IconButton></TableCell>
-          </TableRow>
-        </>
-      )
-      : (
-        <>
-          <TableRow>
-            <TableCell className={classes.red}>{productState.name}</TableCell>
-            <TableCell>{productState.price}</TableCell>
-            <TableCell align="center">{inStockToStr()}</TableCell>
-            <TableCell align="center"><IconButton size="small" onClick={handleClick}><EditIcon fontSize="small" /></IconButton></TableCell>
-            <TableCell align="center"><IconButton size="small" onClick={() => removeProductById(product.id)}><DeleteIcon fontSize="small" /></IconButton></TableCell>
-          </TableRow>
-        </>
-      )
+    <>
+      <TableRow>
+        <TableCell className={classes.red}>{productState.name}</TableCell>
+        <TableCell>{`$${productState.price}`}</TableCell>
+        <TableCell align="center">{inStockToStr()}</TableCell>
+        <TableCell align="center"><IconButton size="small" onClick={handleClick}><EditIcon fontSize="small" /></IconButton></TableCell>
+        <TableCell align="center"><IconButton size="small" onClick={() => removeProductById(product.id)}><DeleteIcon fontSize="small" /></IconButton></TableCell>
+      </TableRow>
+    </>
   );
 }
 

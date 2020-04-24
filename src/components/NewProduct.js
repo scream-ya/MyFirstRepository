@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import { makeStyles } from '@material-ui/core/styles';
 import { actionAddProduct, visibleAddNewProduct } from '../store/actions';
 
@@ -74,7 +75,7 @@ function NewProduct(props) {
         <TextField id="category" label="Category" size="small" color="primary" value={productState.category} onChange={handleChange} />
       </div>
       <div>
-        <TextField id="price" label="Price" type="number" size="small" color="primary" value={productState.price} onChange={handleChange} />
+        <TextField InputProps={{startAdornment: <InputAdornment position="start">$</InputAdornment> }} id="price" label="Price" type="number" size="small" color="primary" value={productState.price} onChange={handleChange} />
       </div>
       <div>
         <TextField id="name" label="Name" size="small" color="primary" value={productState.name} onChange={handleChange} />
