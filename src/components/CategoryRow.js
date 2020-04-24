@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import { makeStyles } from '@material-ui/core/styles';
 
 const propTypes = {
   category: PropTypes.string,
@@ -13,9 +16,11 @@ function CategoryRow(props) {
   const { category } = props;
 
   return (
-    <tr>
-      <td colSpan="5" className="category">{category}</td>
-    </tr>
+    <TableRow>
+      <TableCell colSpan="5" align="center">
+        <b>{category}</b>
+      </TableCell>
+    </TableRow>
   );
 }
 

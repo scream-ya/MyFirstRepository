@@ -1,39 +1,101 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Table from './Table';
-import SearchBar from './SearchBar';
-import NewProduct from './NewProduct';
-import { visibleAddNewProduct } from '../store/actions';
+import { connect } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import CategoryRow from './CategoryRow';
+import Row from './Row';
+import { actionEditProduct, actionRemoveProduct } from '../store/actions';
+
 
 const propTypes = {
-  isVisibleAddNewProduct: PropTypes.bool.isRequired,
-  showAddNewProduct: PropTypes.func.isRequired,
+  filterText: PropTypes.string,
+  inStockOnly: PropTypes.bool.isRequired,
+  products: PropTypes.arrayOf(PropTypes.object).isRequired,
+  removeProductById: PropTypes.func.isRequired,
+  editProduct: PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+  filterText: '',
 };
 
 const mapStateToProps = (state) => ({
-  isVisibleAddNewProduct: state.isVisibleAddNewProduct,
+  filterText: state.filterText,
+  inStockOnly: state.inStockOnly,
+  products: state.productsList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  showAddNewProduct: () => dispatch(visibleAddNewProduct(true)),
+  removeProductById: (id) => dispatch(actionRemoveProduct(id)),
+  editProduct: (object) => dispatch(actionEditProduct(object)),
 });
 
 function ProductTable(props) {
-  const { isVisibleAddNewProduct, showAddNewProduct } = props;
+  let prevCategory = '';
+  const {
+    filterText, inStockOnly, products, removeProductById, editProduct,
+  } = props;
+
+  const classes = makeStyles({
+    table: {
+      maxWidth: 650,
+    },
+  })();
 
   return (
-    <div>
-      <h1>Products</h1>
-      <SearchBar />
-      <button type="button" onClick={showAddNewProduct}>Add product</button>
-      {isVisibleAddNewProduct
-        && <NewProduct />}
-      <Table />
-    </div>
+    <Table className={classes.table} size="small">
+      <TableHead>
+        <TableRow>
+          <TableCell align="center">Name</TableCell>
+          <TableCell align="center">Price</TableCell>
+          <TableCell align="center">Stocked</TableCell>
+          <TableCell align="center">Edit</TableCell>
+          <TableCell align="center">Delete</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {
+          products.sort((a, b) => {
+            if (a.category > b.category) {
+              return 1;
+            }
+
+            if (a.category < b.category) {
+              return -1;
+            }
+
+            return 0;
+          })
+            .filter((product) => !filterText
+              || product.name.toLowerCase().indexOf(filterText.toLowerCase()) === 0)
+            .filter((product) => !inStockOnly || product.stocked)
+            .map((product) => {
+              if (product.category !== prevCategory) {
+                prevCategory = product.category;
+                return (
+                  <React.Fragment key={product.id}>
+                    <CategoryRow category={product.category} />
+                    <Row product={product} removeProductById={removeProductById} editProduct={editProduct} />
+                  </React.Fragment>
+                );
+              }
+
+              prevCategory = product.category;
+
+              return <Row key={product.id} product={product} removeProductById={removeProductById} editProduct={editProduct} />;
+            })
+        }
+      </TableBody>
+    </Table>
   );
 }
 
 ProductTable.propTypes = propTypes;
+ProductTable.defaultProps = defaultProps;
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductTable);

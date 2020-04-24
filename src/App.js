@@ -1,10 +1,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import ProductTable from './components/ProductTable';
+import FilterableProductTable from './components/FilterableProductTable';
 import store from './store/store';
 
 function App() {
-  return <Provider store={store}><ProductTable /></Provider>;
+  return <Provider store={store}><FilterableProductTable /></Provider>;
 }
 
 export default App;

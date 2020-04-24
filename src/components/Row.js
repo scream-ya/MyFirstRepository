@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { connect } from 'react-redux';
-import { actionEditProduct, actionRemoveProduct } from '../store/actions';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
+import DoneIcon from '@material-ui/icons/Done';
+import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles } from '@material-ui/core/styles';
 
 const propTypes = {
   product: PropTypes.shape({
@@ -15,11 +20,6 @@ const propTypes = {
   removeProductById: PropTypes.func.isRequired,
   editProduct: PropTypes.func.isRequired,
 };
-
-const mapDispatchToProps = (dispatch) => ({
-  removeProductById: (id) => dispatch(actionRemoveProduct(id)),
-  editProduct: (object) => dispatch(actionEditProduct(object)),
-});
 
 function Row(props) {
   const { product, removeProductById, editProduct } = props;
@@ -55,9 +55,9 @@ function Row(props) {
     editProduct({
       id: product.id,
       category: product.category,
-      name,
       price,
       stocked: inStock,
+      name,
     });
 
     setProductState({ ...productState, isEditProduct: false });
@@ -74,28 +74,34 @@ function Row(props) {
     });
   }
 
+  const classes = makeStyles({
+    red: {
+      color: productState.inStock ? 'black' : 'red',
+    },
+  })();
+
   return (
     productState.isEditProduct
       ? (
         <>
-          <tr>
-            <td><input id="name" type="text" value={productState.name} onChange={handleChange} /></td>
-            <td><input id="price" type="text" value={productState.price} onChange={handleChange} /></td>
-            <td><input id="inStock" type="checkbox" checked={productState.inStock} onChange={handleChange} /></td>
-            <td><button type="button" onClick={handleEditProduct}>Ok</button></td>
-            <td><button type="button" onClick={cancel}>Cancel</button></td>
-          </tr>
+          <TableRow>
+            <TableCell><input id="name" type="text" value={productState.name} onChange={handleChange} /></TableCell>
+            <TableCell><input id="price" type="text" value={productState.price} onChange={handleChange} /></TableCell>
+            <TableCell><input id="inStock" type="checkbox" checked={productState.inStock} onChange={handleChange} /></TableCell>
+            <TableCell><IconButton size="small" onClick={handleEditProduct}><DoneIcon fontSize="small" /></IconButton></TableCell>
+            <TableCell><IconButton size="small" onClick={cancel}><CloseIcon fontSize="small" /></IconButton></TableCell>
+          </TableRow>
         </>
       )
       : (
         <>
-          <tr>
-            <td className={clsx({ red: !productState.inStock })}>{productState.name}</td>
-            <td>{productState.price}</td>
-            <td align="center">{inStockToStr()}</td>
-            <td><button id="isEditProduct" type="button" onClick={handleClick}>Edit</button></td>
-            <td><button type="button" onClick={() => removeProductById(product.id)}>Del</button></td>
-          </tr>
+          <TableRow>
+            <TableCell className={classes.red}>{productState.name}</TableCell>
+            <TableCell>{productState.price}</TableCell>
+            <TableCell align="center">{inStockToStr()}</TableCell>
+            <TableCell align="center"><IconButton size="small" onClick={handleClick}><EditIcon fontSize="small" /></IconButton></TableCell>
+            <TableCell align="center"><IconButton size="small" onClick={() => removeProductById(product.id)}><DeleteIcon fontSize="small" /></IconButton></TableCell>
+          </TableRow>
         </>
       )
   );
@@ -103,4 +109,4 @@ function Row(props) {
 
 Row.propTypes = propTypes;
 
-export default connect(null, mapDispatchToProps)(Row);
+export default Row;

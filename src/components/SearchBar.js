@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 import { setFilters } from '../store/actions';
 
 const propTypes = {
@@ -24,8 +26,8 @@ function SearchBar(props) {
 
   return (
     <div>
-      <input type="text" id="filterText" placeholder="Search..." className="inline" onChange={handleChange} />
-      <input type="checkbox" id="inStockOnly" onChange={handleChange} className="inline" />
+      <TextField id="filterText" placeholder="Search..." type="search" onChange={handleChange} color="primary" />
+      <Checkbox id="inStockOnly" onChange={handleChange} color="primary" />
       Only show products in stock
     </div>
   );

@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import FormLabel from '@material-ui/core/FormLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import { makeStyles } from '@material-ui/core/styles';
 import { actionAddProduct, visibleAddNewProduct } from '../store/actions';
 
 const propTypes = {
@@ -13,6 +18,14 @@ const mapDispatchToProps = (dispatch) => ({
   addNewProduct: (object) => dispatch(actionAddProduct(object)),
   hideAddNewProduct: () => dispatch(visibleAddNewProduct(false)),
 });
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 function NewProduct(props) {
   const initialProductState = {
@@ -55,28 +68,27 @@ function NewProduct(props) {
     clear();
   }
 
+  const classes = useStyles();
+
   return (
     <div>
       <div>
-        <div>
-          <span>Category:</span>
-          <input id="category" type="text" className="inline" value={productState.category} onChange={handleChange} />
-        </div>
-        <div>
-          <span>Price:</span>
-          <input id="price" type="number" className="inline" value={productState.price} onChange={handleChange} />
-        </div>
-        <div>
-          <span>Stocked:</span>
-          <input id="inStock" type="checkbox" className="inline" checked={productState.inStock} onChange={handleChange} />
-        </div>
-        <div>
-          <span>Name:</span>
-          <input id="name" type="text" className="inline" value={productState.name} onChange={handleChange} />
-        </div>
+        <TextField id="category" label="Category" size="small" color="primary" value={productState.category} onChange={handleChange} />
       </div>
-      <button type="button" onClick={handleAddProduct}>Add</button>
-      <button type="button" onClick={hideAddNewProduct}>Close</button>
+      <div>
+        <TextField id="price" label="Price" type="number" size="small" color="primary" value={productState.price} onChange={handleChange} />
+      </div>
+      <div>
+        <TextField id="name" label="Name" size="small" color="primary" value={productState.name} onChange={handleChange} />
+      </div>
+      <div>
+        <Checkbox id="inStock" color="primary" checked={productState.inStock} onChange={handleChange} />
+        <FormLabel>Stocked</FormLabel>
+      </div>
+      <div className={classes.root}>
+        <Button variant="contained" size="small" onClick={handleAddProduct}>Add</Button>
+        <Button variant="contained" size="small" onClick={hideAddNewProduct}>Close</Button>
+      </div>
     </div>
   );
 }
